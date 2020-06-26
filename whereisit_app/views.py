@@ -25,6 +25,3 @@ def register(request):
             return render(request, 'whereisit_app/register.html', {'title': title, 'form': form})
 
 
-def login(request):
-    title = 'Log In'
-    return render(request, 'whereisit_app/login.html', {'title': title})
