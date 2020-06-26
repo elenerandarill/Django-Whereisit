@@ -45,6 +45,12 @@
       </nav>
         <!-- Navbar end -->
 
+    {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}" role="alert">
+          {{ message }}
+        </div>
+    {% endfor %}
+
     <div class="jumbotron">
         {% block content %}{% endblock %}
     </div>

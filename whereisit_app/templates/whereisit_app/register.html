@@ -1,4 +1,11 @@
 {% extends "whereisit_app/base.html" %}
 {% block content %}
-    <h2>Register here...</h2>
+    <h3>Register here...</h3>
+        <form method="POST" action="">
+            {% csrf_token %}
+                <fieldset class="form-group">
+                    {{ form.as_p }}
+                </fieldset>
+            <button type="submit" class="btn btn-outline-primary">Register</button>
+        </form>
 {% endblock %}
