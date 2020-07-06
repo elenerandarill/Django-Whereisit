@@ -1,4 +1,9 @@
 {% extends "whereisit_app/base.html" %}
 {% block content %}
-    <h2>This is <strong>Where Is It</strong> app. Welcome, new User!</h2>
+    <h2>This is <strong>Where Is It</strong> app. Enjoy! :D</h2>
+    {% if user.is_authenticated %}
+    {% else %}
+        Welcome, new User - register or log in.
+    {% endif %}
+
 {% endblock %}

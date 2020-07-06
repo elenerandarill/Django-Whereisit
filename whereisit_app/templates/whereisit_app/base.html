@@ -25,20 +25,27 @@
         <div class="collapse navbar-collapse" id="navbarColor02">
           <ul class="navbar-nav mr-auto">
               <li class="nav-item active">
-                <a class="nav-link" href="{% url 'home' %}">Home <span class="sr-only">(current)</span></a>
+                  <a class="nav-link" href="{% url 'home' %}">Home <span class="sr-only">(current)</span></a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">About</a>
-              </li>
+
               {% if user.is_authenticated %}
+                  <li class="nav-item">
+                      <a class="nav-link" href="{% url 'profile' %}">Profile</a>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link" href="#">My Items</a>
+                  </li>
               {% else %}
                   <li class="nav-item">
-                  <a class="nav-link" href="{% url 'register' %}">Register</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="{% url 'login' %}">Log In</a>
-                </li>
+                      <a class="nav-link" href="{% url 'register' %}">Register</a>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link" href="{% url 'login' %}">Log In</a>
+                  </li>
               {% endif %}
+              <li class="nav-item">
+                  <a class="nav-link" href="#">About</a>
+              </li>
           </ul>
           <form class="form-inline">
             <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" />
@@ -50,6 +57,7 @@
 
     {% if user.is_authenticated %}
         <div class="p-1">
+            <img class="rounded-circle account-img" width="64" height="64" src="{{ user.profile.image.url }}">
             <small><strong>{{ user.username }}</strong> is logged in.</small>
             <span type="submit" class="btn btn-sm btn-light"><a href="{% url 'logout' %}">Log out</a></span>
         </div>
