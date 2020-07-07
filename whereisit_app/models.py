@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
+from django.urls import reverse
 from PIL import Image
 
 
@@ -20,18 +21,35 @@ class Profile(models.Model):
             img.save()
 
 
-# class Item(models.Model):
-#     name = models.CharField(max_length=50)
-#     category = models.CharField(max_length=30)
-#     description = models.TextField()
-#     location = models.CharField()
-#     is_borrowed = models.BooleanField(default=False)
-#     who_borrowed = models.CharField(max_length=30)
-#     when_borrowed = models.DateTimeField()
-#     owners = models.ManyToManyField(User)
-#
-#     class Meta:
-#         ordering = ['name']
-#
-#     def __str__(self):
-#         return f'{self.name}, category: {self.category}, location:'
+class Item(models.Model):
+    name = models.CharField(max_length=50)
+    CATEGORIES = (
+        ('Tools', 'Tools'),
+        ('Clothes', 'Clothes'),
+        ('Kitchen', 'Kitchen'),
+        ('Bedclothes', 'Bedclothes'),
+        ('Holidays', 'Holidays'),
+        ('Bathroom', 'Bathroom'),
+        ('Car_stuff', 'Car stuff'),
+        ('Other', 'Other'),
+    )
+    category = models.CharField(max_length=20, choices=CATEGORIES)
+    description = models.TextField(null=True, blank=True)
+    location = models.CharField(max_length=50)
+    is_borrowed = models.BooleanField(default=False, blank=True)
+    who_borrowed = models.CharField(max_length=30, blank=True, default='')
+    when_borrowed = models.DateTimeField(null=True, blank=True)
+    users = models.ManyToManyField(User)
+
+    class Meta:
+        ordering = ['name']
+
+    # def save(self, *args, **kwargs):
+    #     super().save(*args, **kwargs)
+    #     self.users.add(User.objects.get(self.user.id))
+
+    def __str__(self):
+        return f'{self.name}, category: {self.category}, location:'
+
+    def get_absolute_url(self):
+        return reverse('item-detail', kwargs={'pk': self.pk})

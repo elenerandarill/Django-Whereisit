@@ -1,7 +1,11 @@
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from .models import Profile, Item
 
 
 def home(request):
@@ -45,3 +49,34 @@ def profile(request):
         else:
             messages.error(request, 'Something went wrong.')
 
+
+# Items.
+class ItemListView(ListView):
+    model = Item
+    template_name = 'whereisit_app/home.html'
+    context_object_name = 'items'
+    ordering = ['name']
+
+
+class ItemDetailView(DetailView):
+    model = Item
+
+
+class ItemCreateView(LoginRequiredMixin, CreateView):
+    model = Item
+    fields = ['name', 'category', 'description', 'location', 'is_borrowed', 'who_borrowed', 'when_borrowed']
+
+    def form_valid(self, form):
+        # https://stackoverflow.com/questions/18246326/how-do-i-set-user-field-in-form-to-the-currently-logged-in-user
+        item = form.save()
+        item.users.add(self.request.user)  # = UserProfile.objects.get(user=self.request.user)  # use your own profile here
+        item.save()
+        return redirect("item-detail", pk=item.pk)
+
+
+# class ItemUpdateView(UpdateView):
+#     pass
+#
+#
+# class ItemDeleteView(DetailView):
+#     pass

@@ -16,13 +16,14 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from whereisit_app import views
+from whereisit_app.views import ItemListView, ItemDetailView, ItemCreateView
 from django.contrib.auth import views as auth_views
 from django.conf import settings
 from django.conf.urls.static import static
 
 
 urlpatterns = [
-    path('', views.home, name='home'),
+    path('', ItemListView.as_view(), name='home'),
     # Authorization.
     path('register/', views.register, name='register'),
     path('login/', auth_views.LoginView.as_view(template_name='whereisit_app/login.html'), name='login'),
@@ -30,6 +31,10 @@ urlpatterns = [
     # User.
     path('profile/', views.profile, name='profile'),
     #Items.
+    path('item/add/', ItemCreateView.as_view(), name='item-create'),
+    path('item/<int:pk>/', ItemDetailView.as_view(), name='item-detail'),
+    # path('item/<int:pk>/update', ItemUpdateView.as_view(), name='item-update'),
+    # path('item/<int:pk>/delete/', ItemDeleteView.as_view(), name='item-delete'),
     #Admin.
     path('admin/', admin.site.urls),
 ]
