@@ -21,10 +21,10 @@
 
     <p class="col mt-2 mb-2">
         {% if user in object.users.all %}
-            <a href="#">
+            <a href="{% url 'item-update' item.id %}">
                 <button type="submit" class="btn btn-outline-info">Update</button>
             </a>
-            <a href="{% url 'item-delete' object.id %}">
+            <a href="{% url 'item-delete' item.id %}">
                 <button type="submit" class="btn btn-outline-danger">Delete</button>
             </a>
         {% endif %}

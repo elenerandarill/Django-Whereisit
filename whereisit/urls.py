@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from whereisit_app import views
-from whereisit_app.views import ItemListView, ItemDetailView, ItemCreateView, ItemDeleteView
+from whereisit_app.views import ItemListView, ItemDetailView, ItemCreateView, ItemDeleteView, ItemUpdateView
 from django.contrib.auth import views as auth_views
 from django.conf import settings
 from django.conf.urls.static import static
@@ -33,7 +33,7 @@ urlpatterns = [
     #Items.
     path('item/add/', ItemCreateView.as_view(), name='item-create'),
     path('item/<int:pk>/', ItemDetailView.as_view(), name='item-detail'),
-    # path('item/<int:pk>/update', ItemUpdateView.as_view(), name='item-update'),
+    path('item/<int:pk>/update', ItemUpdateView.as_view(), name='item-update'),
     path('item/<int:pk>/delete/', ItemDeleteView.as_view(), name='item-delete'),
     #Admin.
     path('admin/', admin.site.urls),

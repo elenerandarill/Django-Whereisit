@@ -69,21 +69,18 @@ class ItemCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         # https://stackoverflow.com/questions/18246326/how-do-i-set-user-field-in-form-to-the-currently-logged-in-user
         item = form.save()
-        item.users.add(self.request.user)  # = UserProfile.objects.get(user=self.request.user)
+        item.users.add(self.request.user)
         item.save()
-        return redirect("item-detail", pk=item.pk)
+        return super().form_valid(form)
 
 
-# class ItemUpdateView(UpdateView):
-#     pass
+class ItemUpdateView(LoginRequiredMixin, UpdateView):
+    model = Item
+    fields = ['name', 'category', 'description', 'location', 'is_borrowed', 'who_borrowed', 'when_borrowed']
+    template_name_suffix = '_update_form'
 
 
-class ItemDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+class ItemDeleteView(LoginRequiredMixin, DeleteView):
     model = Item
     success_url = '/'
 
-    def test_func(self):
-        item = self.get_object()
-        if self.request.user in item.users.all():
-            return True
-        return False

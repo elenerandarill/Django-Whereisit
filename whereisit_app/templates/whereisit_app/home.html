@@ -45,8 +45,7 @@
                             {% endif %}
                         </td>
                         <td>
-                            <a href="#" class="btn btn-sm btn-outline-info m-1">Update</a>
-                            <a href="{% url 'item-delete' item.id %}" class="btn btn-sm btn-outline-danger m-1">Delete</a>
+                            <a href="{% url 'item-detail' item.id %}" class="btn btn-sm btn-outline-info m-1">Edit</a>
                         </td>
                     </tr>
                 {% endif %}
