@@ -23,6 +23,7 @@ class Profile(models.Model):
 
 class Item(models.Model):
     name = models.CharField(max_length=50)
+    image = models.ImageField(default='def-item.png', upload_to='items_pics')
     CATEGORIES = (
         ('Tools', 'Tools'),
         ('Computer stuff', 'Computer stuff'),
@@ -45,12 +46,17 @@ class Item(models.Model):
     class Meta:
         ordering = ['name']
 
-    # def save(self, *args, **kwargs):
-    #     super().save(*args, **kwargs)
-    #     self.users.add(User.objects.get(self.user.id))
-
     def __str__(self):
         return f'{self.name}, category: {self.category}, location:'
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        img = Image.open(self.image.path)
+        if img.height > 200:
+            output_size = (200, 200)
+            img.thumbnail(output_size)
+            img.save(self.image.path)
+
 
     def get_absolute_url(self):
         return reverse('item-detail', kwargs={'pk': self.pk})

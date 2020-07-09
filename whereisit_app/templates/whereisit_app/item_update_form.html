@@ -2,7 +2,7 @@
 {% block content %}
     <h3>Updating item</h3>
     <p class="col m-3">Here you can update info about your item:</p>
-    <form method="POST">
+    <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
             {{ form.as_p }}
         <input type="submit" class="btn btn-outline-info" value="Update">

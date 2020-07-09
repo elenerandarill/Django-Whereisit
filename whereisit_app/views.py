@@ -64,7 +64,7 @@ class ItemDetailView(DetailView):
 
 class ItemCreateView(LoginRequiredMixin, CreateView):
     model = Item
-    fields = ['name', 'category', 'description', 'location', 'is_borrowed', 'who_borrowed', 'when_borrowed']
+    fields = ['name', 'image', 'category', 'description', 'location', 'is_borrowed', 'who_borrowed', 'when_borrowed']
 
     def form_valid(self, form):
         # https://stackoverflow.com/questions/18246326/how-do-i-set-user-field-in-form-to-the-currently-logged-in-user
@@ -76,7 +76,7 @@ class ItemCreateView(LoginRequiredMixin, CreateView):
 
 class ItemUpdateView(LoginRequiredMixin, UpdateView):
     model = Item
-    fields = ['name', 'category', 'description', 'location', 'is_borrowed', 'who_borrowed', 'when_borrowed']
+    fields = ['name', 'image', 'category', 'description', 'location', 'is_borrowed', 'who_borrowed', 'when_borrowed']
     template_name_suffix = '_update_form'
 
 

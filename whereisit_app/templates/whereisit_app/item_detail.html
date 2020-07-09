@@ -6,6 +6,7 @@
 
     <div class="col mt-3 mb-3">
         <h4><strong>Name:</strong> {{ item.name }}</h4><br>
+        <img class="img-thumbnail" src="{{ item.image.url }}"><br>
         <strong>Users seeing the item:</strong>
         {% for user in item.users.all %}
             {{ user.username }}
