@@ -25,6 +25,7 @@ class Item(models.Model):
     name = models.CharField(max_length=50)
     CATEGORIES = (
         ('Tools', 'Tools'),
+        ('Computer stuff', 'Computer stuff'),
         ('Clothes', 'Clothes'),
         ('Kitchen', 'Kitchen'),
         ('Bedclothes', 'Bedclothes'),
@@ -52,4 +53,4 @@ class Item(models.Model):
         return f'{self.name}, category: {self.category}, location:'
 
     def get_absolute_url(self):
-        return reverse('item-detail', kwargs={'pk': self.pk})
+        return reverse('item-detail', kwargs={'id': self.id})

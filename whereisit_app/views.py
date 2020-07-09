@@ -1,7 +1,7 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib import messages
 from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
@@ -69,14 +69,21 @@ class ItemCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         # https://stackoverflow.com/questions/18246326/how-do-i-set-user-field-in-form-to-the-currently-logged-in-user
         item = form.save()
-        item.users.add(self.request.user)  # = UserProfile.objects.get(user=self.request.user)  # use your own profile here
+        item.users.add(self.request.user)  # = UserProfile.objects.get(user=self.request.user)
         item.save()
         return redirect("item-detail", pk=item.pk)
 
 
 # class ItemUpdateView(UpdateView):
 #     pass
-#
-#
-# class ItemDeleteView(DetailView):
-#     pass
+
+
+class ItemDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Item
+    success_url = '/'
+
+    def test_func(self):
+        item = self.get_object()
+        if self.request.user in item.users.all():
+            return True
+        return False

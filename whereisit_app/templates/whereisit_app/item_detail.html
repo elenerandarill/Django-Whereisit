@@ -1,7 +1,32 @@
 {% extends 'whereisit_app/base.html' %}
 {% block content %}
 
-    <h3>Item details:</h3>
+    <h3>ITEM DETAILS</h3>
 
 
+    <div class="col mt-3 mb-3">
+        <h4><strong>Name:</strong> {{ item.name }}</h4><br>
+        <strong>Users seeing the item:</strong>
+        {% for user in item.users.all %}
+            {{ user.username }}
+        {% endfor %}<br>
+        <strong>Category:</strong> {{ item.category }}<br>
+        <strong>Few words about it:</strong> {{ item.description }}<br>
+        <strong>Where is it now:</strong> {{ item.location }}<br>
+        <strong>Did anybody borrow it?:</strong> {{ item.is_borrowed }}<br>
+        <strong>If yes, than who:</strong> {{ item.who_borrowed }}<br>
+        <strong>If yes, then when</strong> {{ item.when_borrowed|date }}<br>
+        <strong>It`s been so many days:</strong> ile dni temu<br>
+    </div>
+
+    <p class="col mt-2 mb-2">
+        {% if user in object.users.all %}
+            <a href="#">
+                <button type="submit" class="btn btn-outline-info">Update</button>
+            </a>
+            <a href="{% url 'item-delete' object.id %}">
+                <button type="submit" class="btn btn-outline-danger">Delete</button>
+            </a>
+        {% endif %}
+    </p>
 {% endblock %}

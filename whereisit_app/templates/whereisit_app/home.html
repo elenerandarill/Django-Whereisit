@@ -4,6 +4,7 @@
     <br>
     <p>Keep track of your items and remember who saw it last ;).</p>
     {% if user.is_authenticated %}
+
         <br>Your items:
         <table class="table table-bordered">
             <tr>
@@ -19,27 +20,36 @@
                 <th scope="col" class="table-primary">options</th>
             </tr>
             {% for item in items %}
-                <tr>
-                    <td>
-                        {{ item.users.all }}
-                    </td>
-                    <td>{{ item.name }}</td>
-                    <td>{{ item.category }}</td>
-                    <td>{{ item.description }}</td>
-                    <td>{{ item.location }}</td>
-                    <td>{{ item.is_borrowed }}</td>
-                    <td>{{ item.who_borrowed }}</td>
-                    <td>{{ item.when_borrowed|date }}</td>
-                    <td>ile dni temu</td>
-                    <td>
-                        update / delete
-{#                        <form method="POST">#}
-{#                            {% csrf_token %}#}
-{#                                <a href="#"><button class="btn btn-sm btn-primary" type="submit">Update</button></a>#}
-{#                                <a href="#"><button class="btn btn-sm btn-danger" type="submit">Delete</button></a>#}
-{#                        </form>#}
-                    </td>
-                </tr>
+                {% if user in item.users.all %}
+                    <tr>
+                        <td>
+                            {% for user in item.users.all %}
+                                {{ user.username }}
+                            {% endfor %}
+                        </td>
+                        <td>
+                            <a href="{% url 'item-detail' item.pk %}">
+                                <strong>{{ item.name }}</strong>
+                            </a>
+                        </td>
+                        <td>{{ item.category }}</td>
+                        <td>{{ item.description }}</td>
+                        <td>{{ item.location }}</td>
+                        <td>{{ item.is_borrowed }}</td>
+                        <td>{{ item.who_borrowed }}</td>
+                        <td>{{ item.when_borrowed|date }}</td>
+                        <td>
+                            {% if item.when_borrowed %}
+                                days
+    {#                            {{ datetime.datetime.now - item.when_borrowed }}#}
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a href="#" class="btn btn-sm btn-outline-info m-1">Update</a>
+                            <a href="{% url 'item-delete' item.id %}" class="btn btn-sm btn-outline-danger m-1">Delete</a>
+                        </td>
+                    </tr>
+                {% endif %}
             {% endfor %}
         </table>
 

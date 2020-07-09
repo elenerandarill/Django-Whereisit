@@ -1,0 +1,11 @@
+{% extends 'whereisit_app/base.html' %}
+{% block content %}
+    <form method="POST">
+        {% csrf_token %}
+        <fieldset>
+            <h4>Make sure you want to permanently delete an item <strong>{{ object.name }}</strong></h4>
+        </fieldset>
+        <button type="submit" class="btn btn-outline-danger">Delete</button>
+        <a href="{% url 'home' %}" class="btn btn-outline-secondary">Cancel</a>
+    </form>
+{% endblock %}
