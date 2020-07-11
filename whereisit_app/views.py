@@ -3,9 +3,12 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib import messages
+from django.utils import timezone
+
 from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from .models import Profile, Item
+import datetime
 
 
 def home(request):
@@ -60,6 +63,13 @@ class ItemListView(ListView):
 
 class ItemDetailView(DetailView):
     model = Item
+
+    def get_context_data(self, **kwargs):
+        item = self.object
+        context = super(ItemDetailView, self).get_context_data(**kwargs)
+        if item.when_borrowed:
+            context['days_passed'] = timezone.now() - item.when_borrowed
+            return context
 
 
 class ItemCreateView(LoginRequiredMixin, CreateView):

@@ -16,8 +16,14 @@
         <strong>Where is it now:</strong> {{ item.location }}<br>
         <strong>Did anybody borrow it?:</strong> {{ item.is_borrowed }}<br>
         <strong>If yes, than who:</strong> {{ item.who_borrowed }}<br>
-        <strong>If yes, then when</strong> {{ item.when_borrowed|date }}<br>
-        <strong>It`s been so many days:</strong> ile dni temu<br>
+        <strong>If yes, then when:</strong> {{ item.when_borrowed|date }}<br>
+        <strong>It`s been so many days:</strong>
+        <td>
+            {% if item.when_borrowed %}
+                {{ days_passed.days }}
+            {% endif %}
+        </td>
+        <br>
     </div>
 
     <p class="col mt-2 mb-2">
