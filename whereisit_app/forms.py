@@ -26,6 +26,12 @@ class ProfileUpdateForm(forms.ModelForm):
         fields = ['image']
 
 
+class SearchForm(forms.ModelForm):
+    search_q = forms.CharField()
+
+    class Meta:
+        model = Item
+        fields = ['search_q']
 
 
 

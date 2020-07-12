@@ -47,9 +47,10 @@
                   <a class="nav-link" href="#">About</a>
               </li>
           </ul>
-          <form class="form-inline">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" />
-            <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
+          <form method="POST" action="{% url 'item-search' %}" class="form-inline">
+              {% csrf_token %}
+                <input class="form-control mr-sm-2" type="search" name="search_q" placeholder="Search" aria-label="Search" />
+                <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
           </form>
         </div>
       </nav>
@@ -57,9 +58,9 @@
 
     {% if user.is_authenticated %}
         <div class="p-1">
-            <img class="rounded-circle account-img" width="64" height="64" src="{{ user.profile.image.url }}">
+            <img class="rounded-circle account-img" width="64" height="64" src="{{ user.profile.image.url }}" alt="Users's picture">
             <small><strong>{{ user.username }}</strong> is logged in.</small>
-            <span type="submit" class="btn btn-sm btn-light"><a href="{% url 'logout' %}">Log out</a></span>
+            <a href="{% url 'logout' %}" class="btn btn-sm btn-light">Log out</a>
         </div>
     {% endif %}
 

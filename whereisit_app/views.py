@@ -5,7 +5,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib import messages
 from django.utils import timezone
 
-from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
+from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm, SearchForm
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from .models import Profile, Item
 import datetime
@@ -94,3 +94,37 @@ class ItemDeleteView(LoginRequiredMixin, DeleteView):
     model = Item
     success_url = '/'
 
+
+@login_required
+def search(request):
+    title = 'search results'
+    if request.method == 'POST':
+        form = SearchForm(request.POST)
+        if form.is_valid():
+            word = form.data['search_q']
+            print(f'xxxxxxxxxxxxxxxxxx {word}')
+            search1 = Item.objects.filter(name__icontains=word)
+            search2 = Item.objects.filter(category__icontains=word)
+            search3 = Item.objects.filter(location__icontains=word)
+            print(f'xxxxxxxx{search1}, {search2}, {search3}')
+
+            search = {}
+
+            if search1:
+                for item in search1:
+                    search[item.id] = item
+            if search2:
+                for item in search2:
+                    search[item.id] = item
+            if search3:
+                for item in search3:
+                    search[item.id] = item
+
+            results = search.values()
+
+            context = {
+                'title': title,
+                'word': word,
+                'results': results,
+            }
+            return render(request, 'whereisit_app/search_result.html', context=context)

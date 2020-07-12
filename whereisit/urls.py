@@ -35,6 +35,7 @@ urlpatterns = [
     path('item/<int:pk>/', ItemDetailView.as_view(), name='item-detail'),
     path('item/<int:pk>/update', ItemUpdateView.as_view(), name='item-update'),
     path('item/<int:pk>/delete/', ItemDeleteView.as_view(), name='item-delete'),
+    path('item/search/', views.search, name='item-search'),
     #Admin.
     path('admin/', admin.site.urls),
 ]
