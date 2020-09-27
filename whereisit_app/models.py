@@ -57,6 +57,5 @@ class Item(models.Model):
             img.thumbnail(output_size)
             img.save(self.image.path)
 
-
     def get_absolute_url(self):
         return reverse('item-detail', kwargs={'pk': self.pk})

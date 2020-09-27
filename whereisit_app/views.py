@@ -4,9 +4,9 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib import messages
 from django.utils import timezone
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
 from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm, SearchForm
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from .models import Profile, Item
 import datetime
 
@@ -95,6 +95,7 @@ class ItemDeleteView(LoginRequiredMixin, DeleteView):
     success_url = '/'
 
 
+# Not working yet.
 @login_required
 def search(request):
     title = 'search results'
@@ -102,11 +103,9 @@ def search(request):
         form = SearchForm(request.POST)
         if form.is_valid():
             word = form.data['search_q']
-            print(f'xxxxxxxxxxxxxxxxxx {word}')
             search1 = Item.objects.filter(name__icontains=word)
             search2 = Item.objects.filter(category__icontains=word)
             search3 = Item.objects.filter(location__icontains=word)
-            print(f'xxxxxxxx{search1}, {search2}, {search3}')
 
             search = {}
 

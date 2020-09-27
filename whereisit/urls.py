@@ -14,9 +14,9 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from whereisit_app import views
-from whereisit_app.views import ItemListView, ItemDetailView, ItemCreateView, ItemDeleteView, ItemUpdateView
+from whereisit_app.views import ItemListView
 from django.contrib.auth import views as auth_views
 from django.conf import settings
 from django.conf.urls.static import static
@@ -30,14 +30,10 @@ urlpatterns = [
     path('logout/', auth_views.LogoutView.as_view(template_name='whereisit_app/logout.html'), name='logout'),
     # User.
     path('profile/', views.profile, name='profile'),
-    #Items.
-    path('item/add/', ItemCreateView.as_view(), name='item-create'),
-    path('item/<int:pk>/', ItemDetailView.as_view(), name='item-detail'),
-    path('item/<int:pk>/update', ItemUpdateView.as_view(), name='item-update'),
-    path('item/<int:pk>/delete/', ItemDeleteView.as_view(), name='item-delete'),
-    path('item/search/', views.search, name='item-search'),
-    #Admin.
+    # Admin.
     path('admin/', admin.site.urls),
+    # Items.
+    path('/', include('whereisit_app.urls'))
 ]
 
 if settings.DEBUG:
