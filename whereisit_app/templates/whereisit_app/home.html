@@ -2,65 +2,61 @@
 {% block content %}
     <h2>This is <strong>Where-Is-It</strong> app.</h2>
     <br>
-    <p>Keep track of your items and remember who saw it last ;).</p>
+    <p>Keep track of your items.</p>
     {% if user.is_authenticated %}
 
         <br>Your items:
         <table class="table table-bordered">
             <tr>
-                <th scope="col" class="table-info">users</th>
+                <th scope="col" class="table-info">groups</th>
                 <th scope="col" class="table-primary">image</th>
                 <th scope="col" class="table-info">name /details/</th>
                 <th scope="col" class="table-primary">category</th>
                 <th scope="col" class="table-info">location</th>
                 <th scope="col" class="table-primary">is borrowed</th>
-                <th scope="col" class="table-info">options</th>
             </tr>
             {% for item in items %}
-                {% if user in item.users.all %}
-                    <tr>
-                        <td>
-                            {% for user in item.users.all %}
-                                {{ user.username }}
-                            {% endfor %}
-                        </td>
-                        <td>
-                            {% if item.image %}
-                                <img class="img img-thumbnail" height="100" width="100" src="{{ item.image.url }}">
-                            {% else %}
-                                No image.
-                            {% endif %}
 
-                        </td>
-                        <td>
-                            <a href="{% url 'item-detail' item.pk %}">
-                                <strong>{{ item.name }}</strong>
-                            </a>
-                        </td>
-                        <td>{{ item.category }}</td>
+                        <tr>
+                            <td>
+                                {% for group in item.groups.all %}
+                                    {{ group.name }}
+                                {% endfor %}
+                            </td>
+                            <td>
+                                {% if item.image %}
+                                    <img class="img img-thumbnail" height="100" width="100" src="{{ item.image.url }}" alt="Item's image.">
+                                {% else %}
+                                    No image.
+                                {% endif %}
 
-                        <td>{% if item.is_borrowed %}
-                                ---
-                            {% else %}
-                                {{ item.location }}
-                            {% endif %}
-                        </td>
-                        <td>{% if item.is_borrowed %}
-                                Yes
-                            {% else %}
-                                ---
-                            {% endif %}
-                        </td>
-                        <td>
-                            <a href="{% url 'item-detail' item.id %}" class="btn btn-sm btn-outline-info m-1">Edit</a>
-                        </td>
-                    </tr>
-                {% endif %}
+                            </td>
+                            <td>
+                                <a href="{% url 'item-detail' item.pk %}">
+                                    <strong>{{ item.name }}</strong>
+                                </a>
+                            </td>
+                            <td>{{ item.category }}</td>
+
+                            <td>{% if item.is_borrowed %}
+                                    ---
+                                {% else %}
+                                    {{ item.location }}
+                                {% endif %}
+                            </td>
+                            <td>{% if item.is_borrowed %}
+                                    Yes
+                                {% else %}
+                                    ---
+                                {% endif %}
+                            </td>
+                        </tr>
+
             {% endfor %}
         </table>
 
     {% else %}
-        Welcome, new User - register or log in.
+        Welcome, new User - register or log in from the top menu.
     {% endif %}
 
 {% endblock %}

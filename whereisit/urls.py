@@ -33,7 +33,7 @@ urlpatterns = [
     # Admin.
     path('admin/', admin.site.urls),
     # Items.
-    path('/', include('whereisit_app.urls'))
+    path('item/', include('whereisit_app.urls'))
 ]
 
 if settings.DEBUG:

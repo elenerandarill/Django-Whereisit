@@ -1,3 +1,5 @@
+from random import randint
+
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
@@ -7,7 +9,7 @@ from django.utils import timezone
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
 from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm, SearchForm
-from .models import Profile, Item
+from .models import Profile, Item, GroupOfUsers, User
 import datetime
 
 
@@ -18,6 +20,46 @@ def home(request):
 
 def register(request):
     title = 'Register'
+
+    ######## hack
+    print("check init needed")
+    all_groups = GroupOfUsers.objects.all()
+    if len(all_groups) == 0:
+        print("init!!!!!!")
+        rodzice = GroupOfUsers.objects.create(name='Rodzice')
+        rodzice.save()
+        dzieci = GroupOfUsers.objects.create(name='Dzieci')
+        dzieci.save()
+
+        user1 = User.objects.create(username='elener', email='elener@wp.pl', is_superuser=True)
+        user1.set_password('testing666')
+        user1.u_groups.add(rodzice)
+        user1.u_groups.add(dzieci)
+        user1.save()
+        user2 = User.objects.create(username='norbi', email='norbi@wp.pl')
+        user2.set_password('testing666')
+        user2.u_groups.add(rodzice)
+        user2.save()
+        user3 = User.objects.create(username='ala', email='ala@wp.pl')
+        user3.set_password('testing666')
+        user3.u_groups.add(dzieci)
+        user3.save()
+
+        parasolka = Item.objects.create(name='Parasolka', category='Other', location='Korytarz')
+        parasolka.groups.add(rodzice)
+        parasolka.save()
+        misio = Item.objects.create(name='Miś', category='Toys', location='Dzieciecy')
+        misio.groups.add(dzieci)
+        misio.save()
+        pilka = Item.objects.create(name='Piłka', category='Other', location='Goscinny')
+        pilka.groups.add(rodzice)
+        pilka.groups.add(dzieci)
+        pilka.save()
+    # all_items = Item.objects.all()
+    # if len(all_items) == 0:
+
+    #############
+
     if request.method == 'GET':
         form = UserRegisterForm()
         return render(request, 'whereisit_app/register.html', {'title': title, 'form': form})
@@ -37,6 +79,7 @@ def register(request):
 @login_required
 def profile(request):
     title = 'Your Profile.'
+    test1 = request.user.groups
     if request.method == 'GET':
         u_form = UserUpdateForm(instance=request.user)
         p_form = ProfileUpdateForm(instance=request.user.profile)
@@ -57,8 +100,13 @@ def profile(request):
 class ItemListView(ListView):
     model = Item
     template_name = 'whereisit_app/home.html'
+    # This is send over to the form.
     context_object_name = 'items'
     ordering = ['name']
+
+    def get_queryset(self):
+        groups = self.request.user.u_groups.all()
+        return Item.objects.distinct().filter(groups__in=groups)
 
 
 class ItemDetailView(DetailView):
@@ -74,25 +122,32 @@ class ItemDetailView(DetailView):
 
 class ItemCreateView(LoginRequiredMixin, CreateView):
     model = Item
-    fields = ['name', 'image', 'category', 'description', 'location', 'is_borrowed', 'who_borrowed', 'when_borrowed']
+    fields = ['name', 'image', 'category', 'description', 'location', 'is_borrowed', 'who_borrowed', 'when_borrowed', 'u_groups']
 
     def form_valid(self, form):
         # https://stackoverflow.com/questions/18246326/how-do-i-set-user-field-in-form-to-the-currently-logged-in-user
         item = form.save()
-        item.users.add(self.request.user)
+        # Saving current user into the Item info.
+        item.groups(self.request.user.u_groups.all())
         item.save()
-        return super().form_valid(form)
+        return super().form_valid(form)     # ?
 
 
 class ItemUpdateView(LoginRequiredMixin, UpdateView):
     model = Item
     fields = ['name', 'image', 'category', 'description', 'location', 'is_borrowed', 'who_borrowed', 'when_borrowed']
+    # uses a template_name_suffix of '_form', so we change that.
     template_name_suffix = '_update_form'
 
 
 class ItemDeleteView(LoginRequiredMixin, DeleteView):
     model = Item
     success_url = '/'
+
+
+def map_location(request):
+    title = 'Map'
+    return render(request, 'whereisit_app/map.html', {'title': title})
 
 
 # Not working yet.

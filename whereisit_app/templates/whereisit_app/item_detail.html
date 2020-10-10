@@ -7,9 +7,9 @@
     <div class="col mt-3 mb-3">
         <h4><strong>Name:</strong> {{ item.name }}</h4><br>
         <img class="img-thumbnail" src="{{ item.image.url }}"><br>
-        <strong>Users seeing the item:</strong>
-        {% for user in item.users.all %}
-            {{ user.username }}
+        <strong>Groups which can see the item:</strong>
+        {% for group in item.groups.all %}
+            {{ group.name }}
         {% endfor %}<br>
         <strong>Category:</strong> {{ item.category }}<br>
         <strong>Few words about it:</strong> {{ item.description }}<br>
@@ -27,7 +27,7 @@
     </div>
 
     <p class="col mt-2 mb-2">
-        {% if user in object.users.all %}
+        {% if user.u_group in object.u_groups.all %}
             <a href="{% url 'item-update' item.id %}">
                 <button type="submit" class="btn btn-outline-info">Update</button>
             </a>
