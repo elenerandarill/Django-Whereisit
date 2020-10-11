@@ -45,12 +45,14 @@ class Profile(models.Model):
             img.save()
 
 
-# class Location(models.Model):
-#     room = models.CharField(max_length=50)
-#     furniture = models.CharField(max_length=100)
-#     details = models.CharField(max_length=200)
-#     x = models.IntegerField()
-#     y = models.IntegerField()
+class Location(models.Model):
+    room = models.CharField(max_length=50)
+    furniture = models.CharField(max_length=100)
+    position_x = models.IntegerField(help_text='value in pixels')
+    position_y = models.IntegerField(help_text='value in pixels')
+
+    def __str__(self):
+        return f"{self.room}, {self.furniture}."
 
 
 class Item(models.Model):
@@ -58,21 +60,19 @@ class Item(models.Model):
     image = models.ImageField(default='def-item.png', upload_to='items_pics')
     category = models.CharField(max_length=20, choices=CATEGORIES)
     description = models.TextField(null=True, blank=True)
-    # location = models.ManyToOne(Location, )
-    location = models.CharField('Usually located here:', max_length=200)
+    location = models.ForeignKey(Location, models.SET_NULL, blank=True, null=True)
     is_borrowed = models.BooleanField(default=False, blank=True)
-    who_borrowed = models.CharField('If yes, who has borrowed the item:', max_length=30, blank=True, default='')
-    when_borrowed = models.DateTimeField('If yes, then when (YYYY-MM-DD):', null=True, blank=True)
+    who_borrowed = models.CharField('If yes, who has borrowed it:', max_length=30, blank=True, default='')
+    when_borrowed = models.DateTimeField('If yes, then when was that(YYYY-MM-DD):', null=True, blank=True)
     groups = models.ManyToManyField(GroupOfUsers)
 
     class Meta:
         ordering = ['name']
 
     def __str__(self):
-        return f'{self.name}, category: {self.category}, location: {self.location}'
+        return f'{self.name}, category: {self.category}.'
 
     def save(self, *args, **kwargs):
-        # self.groups = User.u_groups.all()
         super().save(*args, **kwargs)
 
         img = Image.open(self.image.path)

@@ -31,7 +31,7 @@ def register(request):
         dzieci = GroupOfUsers.objects.create(name='Dzieci')
         dzieci.save()
 
-        user1 = User.objects.create(username='elener', email='elener@wp.pl', is_superuser=True)
+        user1 = User.objects.create(username='elener', email='elener@wp.pl')
         user1.set_password('testing666')
         user1.u_groups.add(rodzice)
         user1.u_groups.add(dzieci)
@@ -45,13 +45,13 @@ def register(request):
         user3.u_groups.add(dzieci)
         user3.save()
 
-        parasolka = Item.objects.create(name='Parasolka', category='Other', location='Korytarz')
+        parasolka = Item.objects.create(name='Parasolka', category='Other')
         parasolka.groups.add(rodzice)
         parasolka.save()
-        misio = Item.objects.create(name='Miś', category='Toys', location='Dzieciecy')
+        misio = Item.objects.create(name='Miś', category='Toys')
         misio.groups.add(dzieci)
         misio.save()
-        pilka = Item.objects.create(name='Piłka', category='Other', location='Goscinny')
+        pilka = Item.objects.create(name='Piłka', category='Other')
         pilka.groups.add(rodzice)
         pilka.groups.add(dzieci)
         pilka.save()
@@ -122,20 +122,12 @@ class ItemDetailView(DetailView):
 
 class ItemCreateView(LoginRequiredMixin, CreateView):
     model = Item
-    fields = ['name', 'image', 'category', 'description', 'location', 'is_borrowed', 'who_borrowed', 'when_borrowed', 'groups']
-
-    # def form_valid(self, form):
-    #     # https://stackoverflow.com/questions/18246326/how-do-i-set-user-field-in-form-to-the-currently-logged-in-user
-    #     item = form.save()
-    #     # Saving current user into the Item info.
-    #     item.groups(self.request.user.u_groups.all())
-    #     item.save()
-    #     return super().form_valid(form)     # ?
+    fields = ['name', 'image', 'category', 'description', 'is_borrowed', 'who_borrowed', 'when_borrowed', 'groups', 'location']
 
 
 class ItemUpdateView(LoginRequiredMixin, UpdateView):
     model = Item
-    fields = ['name', 'image', 'category', 'description', 'location', 'is_borrowed', 'who_borrowed', 'when_borrowed']
+    fields = ['name', 'image', 'category', 'description', 'is_borrowed', 'who_borrowed', 'when_borrowed', 'groups', 'location']
     # uses a template_name_suffix of '_form', so we change that.
     template_name_suffix = '_update_form'
 
