@@ -59,10 +59,10 @@ class Item(models.Model):
     category = models.CharField(max_length=20, choices=CATEGORIES)
     description = models.TextField(null=True, blank=True)
     # location = models.ManyToOne(Location, )
-    location = models.CharField(max_length=200)
+    location = models.CharField('Usually located here:', max_length=200)
     is_borrowed = models.BooleanField(default=False, blank=True)
-    who_borrowed = models.CharField(max_length=30, blank=True, default='')
-    when_borrowed = models.DateTimeField(null=True, blank=True)
+    who_borrowed = models.CharField('If yes, who has borrowed the item:', max_length=30, blank=True, default='')
+    when_borrowed = models.DateTimeField('If yes, then when (YYYY-MM-DD):', null=True, blank=True)
     groups = models.ManyToManyField(GroupOfUsers)
 
     class Meta:

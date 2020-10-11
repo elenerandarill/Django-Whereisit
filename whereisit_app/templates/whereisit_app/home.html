@@ -5,7 +5,11 @@
     <p>Keep track of your items.</p>
     {% if user.is_authenticated %}
 
-        <br>Your items:
+        <br>
+        <div>
+            <strong>YOUR ITEMS:</strong>
+        </div>
+
         <table class="table table-bordered">
             <tr>
                 <th scope="col" class="table-info">groups</th>
@@ -20,7 +24,7 @@
                         <tr>
                             <td>
                                 {% for group in item.groups.all %}
-                                    {{ group.name }}
+                                    {{ group.name }},
                                 {% endfor %}
                             </td>
                             <td>

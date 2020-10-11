@@ -6,34 +6,44 @@
 
     <div class="col mt-3 mb-3">
         <h4><strong>Name:</strong> {{ item.name }}</h4><br>
-        <img class="img-thumbnail" src="{{ item.image.url }}"><br>
-        <strong>Groups which can see the item:</strong>
+        <div class="mt-1 mb-4">
+            <img class="img-thumbnail" src="{{ item.image.url }}">
+        </div>
+
+
+        <strong>Belongs to groups:</strong>
         {% for group in item.groups.all %}
-            {{ group.name }}
+            {{ group.name }},
         {% endfor %}<br>
         <strong>Category:</strong> {{ item.category }}<br>
         <strong>Few words about it:</strong> {{ item.description }}<br>
         <strong>Where is it now:</strong> {{ item.location }}<br>
-        <strong>Did anybody borrow it?:</strong> {{ item.is_borrowed }}<br>
-        <strong>If yes, than who:</strong> {{ item.who_borrowed }}<br>
-        <strong>If yes, then when:</strong> {{ item.when_borrowed|date }}<br>
-        <strong>It`s been so many days:</strong>
-        <td>
-            {% if item.when_borrowed %}
-                {{ days_passed.days }}
-            {% endif %}
-        </td>
+        <strong>Did anybody borrow it?:</strong>
+        {% if item.is_borrowed %}
+            Yes
+            <br>
+            <strong>Borrowed by:</strong> {{ item.who_borrowed }}<br>
+            <strong>Borrowed when:</strong> {{ item.when_borrowed|date }}<br>
+            <strong>It`s been so many days:</strong>
+            <td>
+                {% if item.when_borrowed %}
+                    {{ days_passed.days }}
+                {% endif %}
+            </td>
+        {% else %}
+            No
+        {% endif %}
+        <br>
         <br>
     </div>
 
     <p class="col mt-2 mb-2">
-        {% if user.u_group in object.u_groups.all %}
-            <a href="{% url 'item-update' item.id %}">
-                <button type="submit" class="btn btn-outline-info">Update</button>
-            </a>
-            <a href="{% url 'item-delete' item.id %}">
-                <button type="submit" class="btn btn-outline-danger">Delete</button>
-            </a>
-        {% endif %}
+
+        <a href="{% url 'item-update' item.id %}">
+            <button type="submit" class="btn btn-outline-info">Update</button>
+        </a>
+        <a href="{% url 'item-delete' item.id %}">
+            <button type="submit" class="btn btn-outline-danger">Delete</button>
+        </a>
     </p>
 {% endblock %}

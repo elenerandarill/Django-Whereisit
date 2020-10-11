@@ -114,23 +114,23 @@ class ItemDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         item = self.object
-        context = super(ItemDetailView, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         if item.when_borrowed:
             context['days_passed'] = timezone.now() - item.when_borrowed
-            return context
+        return context
 
 
 class ItemCreateView(LoginRequiredMixin, CreateView):
     model = Item
-    fields = ['name', 'image', 'category', 'description', 'location', 'is_borrowed', 'who_borrowed', 'when_borrowed', 'u_groups']
+    fields = ['name', 'image', 'category', 'description', 'location', 'is_borrowed', 'who_borrowed', 'when_borrowed', 'groups']
 
-    def form_valid(self, form):
-        # https://stackoverflow.com/questions/18246326/how-do-i-set-user-field-in-form-to-the-currently-logged-in-user
-        item = form.save()
-        # Saving current user into the Item info.
-        item.groups(self.request.user.u_groups.all())
-        item.save()
-        return super().form_valid(form)     # ?
+    # def form_valid(self, form):
+    #     # https://stackoverflow.com/questions/18246326/how-do-i-set-user-field-in-form-to-the-currently-logged-in-user
+    #     item = form.save()
+    #     # Saving current user into the Item info.
+    #     item.groups(self.request.user.u_groups.all())
+    #     item.save()
+    #     return super().form_valid(form)     # ?
 
 
 class ItemUpdateView(LoginRequiredMixin, UpdateView):

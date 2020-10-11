@@ -6,5 +6,7 @@
         {% csrf_token %}
             {{ form.as_p }}
         <input type="submit" class="btn btn-outline-info" value="Update">
+        <a href="{% url 'item-detail' item.pk %}" class="btn btn-outline-secondary">Cancel</a>
     </form>
+
 {% endblock %}
