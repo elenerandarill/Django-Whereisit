@@ -8,7 +8,7 @@
 
         <table class="table table-bordered">
             <tr>
-                <th scope="col" class="table-info">users</th>
+                <th scope="col" class="table-info">groups</th>
                 <th scope="col" class="table-primary">image</th>
                 <th scope="col" class="table-info">name /details/</th>
                 <th scope="col" class="table-primary">category</th>
@@ -18,11 +18,11 @@
 
             {% if results %}
                 {% for item in results %}
-                    {% if user in item.users.all %}
+                    {% if item.groups.all %}
                         <tr>
                             <td>
-                                {% for user in item.users.all %}
-                                    {{ user.username }}
+                                {% for group in item.groups.all %}
+                                    {{ group.name }}
                                 {% endfor %}
                             </td>
                             <td>

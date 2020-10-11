@@ -77,10 +77,17 @@ WSGI_APPLICATION = 'whereisit.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'whereisit',
+        'USER': os.environ['USER_WHERISIT_DB'],
+        'PASSWORD': os.environ['PASS_WHERISIT_DB'],
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
     }
 }
+
+
+AUTH_USER_MODEL = 'whereisit_app.User'
 
 
 # Password validation
@@ -118,10 +125,10 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
-
+# STATIC_ROOT = os.path.join(BASE_DIR, "whereisit_app", 'static')
 STATIC_URL = '/static/'
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'whereisit_app/media')
 MEDIA_URL = '/media/'
 
 LOGIN_REDIRECT_URL = 'home'
