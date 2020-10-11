@@ -3,6 +3,7 @@
     <h3>This is the location of your item:</h3>
     <div id="container">
         <img src="/whereisit_app/media/m_plan.jpg" id="" alt="map_image" />
-        <img src="/whereisit_app/media/m_dot.png" id="imgdot" alt="dot_image" />
+        <img src="/whereisit_app/media/m_dot.png" id="imgdot" alt="dot_image"
+        style="left:{{ item.location.position_x }}; top:{{ item.location.position_y }}"/>
     </div>
 {% endblock %}

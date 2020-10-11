@@ -46,4 +46,11 @@
             <button type="submit" class="btn btn-outline-danger">Delete</button>
         </a>
     </p>
+
+    <h4>This is the location of your item:</h4>
+    <div id="container">
+        <img src="/media/m_plan.jpg" id="" alt="map_image" />
+        <img src="/media/m_dot.png" id="imgdot" alt="dot_image"
+        style="left:{{ item.location.position_x }}px; top:{{ item.location.position_y }}px"/>
+    </div>
 {% endblock %}
