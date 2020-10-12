@@ -1,9 +1,11 @@
 {% extends "whereisit_app/base.html" %}
 {% block content %}
-    <h2>This is <strong>Where-Is-It</strong> app.</h2>
+    <img src="/media/logo_big.png" height="90px" alt="Where Is It">
+    <h3><i>Helps you to keep track of your items.</i></h3>
     <br>
     <p>Results of your search for: <strong>"{{ word }}"</strong><br>
-    To see item's details click on it's name.
+        <strong>Search</strong> first looks through items' names, and then through categories.<br>
+        To see item's details click on it's <strong>name</strong>.
     </p>
 
         <table class="table table-bordered">
@@ -18,45 +20,44 @@
 
             {% if results %}
                 {% for item in results %}
-                    {% if item.groups.all %}
-                        <tr>
-                            <td>
-                                {% for group in item.groups.all %}
-                                    {{ group.name }}
-                                {% endfor %}
-                            </td>
-                            <td>
-                                {% if item.image %}
-                                    <img class="img img-thumbnail" height="100" width="100" src="{{ item.image.url }}" alt="Item's image">
-                                {% else %}
-                                    No image.
-                                {% endif %}
+                    <tr>
+                        <td>
+                            {% for group in item.groups.all %}
+                                {{ group.name }},
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% if item.image %}
+                                <img class="img img-thumbnail" height="100" width="100" src="{{ item.image.url }}" alt="Item's image.">
+                            {% else %}
+                                No image.
+                            {% endif %}
 
-                            </td>
-                            <td>
-                                <a href="{% url 'item-detail' item.pk %}">
-                                    <strong>{{ item.name }}</strong>
-                                </a>
-                            </td>
-                            <td>{{ item.category }}</td>
+                        </td>
+                        <td>
+                            <a href="{% url 'item-detail' item.pk %}">
+                                <strong>{{ item.name }}</strong>
+                            </a>
+                        </td>
+                        <td>{{ item.category }}</td>
 
-                            <td>{% if item.is_borrowed %}
-                                    ---
-                                {% else %}
-                                    {{ item.location }}
-                                {% endif %}
-                            </td>
-                            <td>{% if item.is_borrowed %}
-                                    Yes
-                                {% else %}
-                                    ---
-                                {% endif %}
-                            </td>
-                        </tr>
-                    {% endif %}
+                        <td>{% if item.is_borrowed %}
+                                ---
+                            {% else %}
+                                {{ item.location }}
+                            {% endif %}
+                        </td>
+
+                        <td>{% if item.is_borrowed %}
+                                Yes
+                            {% else %}
+                                ---
+                            {% endif %}
+                        </td>
+                    </tr>
                 {% endfor %}
             {% else %}
-                No results.
+                No results were found.
             {% endif %}
 
         </table>

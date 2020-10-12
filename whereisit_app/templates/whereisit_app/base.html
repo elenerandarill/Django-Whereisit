@@ -19,7 +19,7 @@
   {% load static %}
     <!-- Navbar start -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-        <a class="navbar-brand">WhereIsIt</a>
+        <img src="/media/logo_sm.png" height="48px">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -31,22 +31,22 @@
               </li>
 
               {% if user.is_authenticated %}
-                  <li class="nav-item">
+                  <li class="nav-item active">
                       <a class="nav-link" href="{% url 'profile' %}">Profile</a>
                   </li>
-                  <li class="nav-item">
+                  <li class="nav-item active">
                       <a class="nav-link" href="{% url 'item-create' %}">New Item</a>
                   </li>
               {% else %}
-                  <li class="nav-item">
+                  <li class="nav-item active">
                       <a class="nav-link" href="{% url 'register' %}">Register</a>
                   </li>
-                  <li class="nav-item">
+                  <li class="nav-item active">
                       <a class="nav-link" href="{% url 'login' %}">Log In</a>
                   </li>
               {% endif %}
               <li class="nav-item">
-                  <a class="nav-link" href="#">About</a>
+                  <a class="nav-link" href="http://localhost:8000/admin">Admin</a>
               </li>
           </ul>
           <form method="POST" action="{% url 'item-search' %}" class="form-inline">

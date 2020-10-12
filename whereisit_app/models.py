@@ -20,12 +20,6 @@ class GroupOfUsers(models.Model):
 class User(AbstractUser):
     u_groups = models.ManyToManyField(GroupOfUsers)
 
-    def can_see_item(self, item):
-        for group in item.groups:
-            if group in self.u_groups:
-                return True
-        return False
-
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -70,7 +64,7 @@ class Item(models.Model):
         ordering = ['name']
 
     def __str__(self):
-        return f'{self.name}, category: {self.category}.'
+        return f'id:{self.id}, {self.name}, category: {self.category}.'
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)

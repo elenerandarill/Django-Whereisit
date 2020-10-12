@@ -1,14 +1,16 @@
 {% extends "whereisit_app/base.html" %}
 {% block content %}
-    <h2>This is <strong>Where-Is-It</strong> app.</h2>
-    <br>
-    <p>Keep track of your items.</p>
-    {% if user.is_authenticated %}
 
+    <img src="/media/logo_big.png" height="90px" alt="Where Is It">
+    <h3><i>Helps you to keep track of your items.</i></h3>
+    <p class="mt-5">Here you can see your item, it's picture and basic information about it.<br>
+        Click on it's <i>name</i> to see more details or to <strong>Edit</strong> your item.<br>
+        Only users from the same group can see same items.</p>
+
+    <p>After opening the app for the first time, go to 'register' - it will create some basic data for database to start with.</p>
+
+    {% if user.is_authenticated %}
         <br>
-        <div>
-            <strong>YOUR ITEMS:</strong>
-        </div>
 
         <table class="table table-bordered">
             <tr>
@@ -21,47 +23,47 @@
             </tr>
             {% for item in items %}
 
-                        <tr>
-                            <td>
-                                {% for group in item.groups.all %}
-                                    {{ group.name }},
-                                {% endfor %}
-                            </td>
-                            <td>
-                                {% if item.image %}
-                                    <img class="img img-thumbnail" height="100" width="100" src="{{ item.image.url }}" alt="Item's image.">
-                                {% else %}
-                                    No image.
-                                {% endif %}
+                <tr>
+                    <td>
+                        {% for group in item.groups.all %}
+                            {{ group.name }},
+                        {% endfor %}
+                    </td>
+                    <td>
+                        {% if item.image %}
+                            <img class="img img-thumbnail" height="100" width="100" src="{{ item.image.url }}" alt="Item's image.">
+                        {% else %}
+                            No image.
+                        {% endif %}
 
-                            </td>
-                            <td>
-                                <a href="{% url 'item-detail' item.pk %}">
-                                    <strong>{{ item.name }}</strong>
-                                </a>
-                            </td>
-                            <td>{{ item.category }}</td>
+                    </td>
+                    <td>
+                        <a href="{% url 'item-detail' item.pk %}">
+                            <strong>{{ item.name }}</strong>
+                        </a>
+                    </td>
+                    <td>{{ item.category }}</td>
 
-                            <td>{% if item.is_borrowed %}
-                                    ---
-                                {% else %}
-                                    {{ item.location }}
-                                {% endif %}
-                            </td>
+                    <td>{% if item.is_borrowed %}
+                            ---
+                        {% else %}
+                            {{ item.location }}
+                        {% endif %}
+                    </td>
 
-                            <td>{% if item.is_borrowed %}
-                                    Yes
-                                {% else %}
-                                    ---
-                                {% endif %}
-                            </td>
-                        </tr>
+                    <td>{% if item.is_borrowed %}
+                            Yes
+                        {% else %}
+                            ---
+                        {% endif %}
+                    </td>
+                </tr>
 
             {% endfor %}
         </table>
 
     {% else %}
-        Welcome, new User - register or log in from the top menu.
+        <h2 class="mt-5">Welcome, new User - <a href="{% url 'register' %}">register</a> or <a href="{% url 'login' %}">log in.</a></h2>
     {% endif %}
 
 {% endblock %}
