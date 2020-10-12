@@ -1,10 +1,16 @@
 {% extends 'whereisit_app/base.html' %}
 {% block content %}
 
-    <h3>ITEM DETAILS</h3>
 
 
-    <div class="col mt-3 mb-3">
+
+    <div class="col mb-3">
+        <h3>ITEM DETAILS</h3>
+        <p>Here you can see specific item detail information.<br>
+        You can <strong>Edit</strong> it or <strong>Delete</strong> it, if your want.<br>
+            At the very bottom you can see a <strong>map</strong> of the appartment <br>with a <strong>dot</strong>
+            in a place of the chosen location. </p>
+        <br>
         <h4><strong>Name:</strong> {{ item.name }}</h4><br>
         <div class="mt-1 mb-4">
             <img class="img-thumbnail" src="{{ item.image.url }}">
