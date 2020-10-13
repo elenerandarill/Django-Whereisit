@@ -5,4 +5,10 @@
 #imgdot {
     position: absolute;
 }
+.text-arialn {
+    font-family: "Arial Narrow";
+}
 
+.text-blue {
+    color: dodgerblue;
+}

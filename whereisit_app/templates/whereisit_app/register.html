@@ -1,6 +1,8 @@
 {% extends "whereisit_app/base.html" %}
 {% block content %}
-    <h3 class="mb-3">Register here</h3>
+    <h3 class="mb-3">Register</h3>
+
+    <p class="mb-5">...or did you mean <a href="{% url 'login' %}"><strong>Log In</strong></a> instead?</p>
     <div>
         <form method="POST" action="">
             {% csrf_token %}
@@ -11,24 +13,24 @@
                         {{ form.username.errors }}
                         <label for="{{ form.username.id_for_label }}">Username</label>
                         {{ form.username }}
-                        {{ form.help_text }}
                     </div>
                     <div class="fieldWrapper">
                         {{ form.email.errors }}
                         <label for="{{ form.email.id_for_label }}">Email</label>
                         {{ form.email }}
+                        <div class="text-blue text-arialn mb-2">Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.</div>
                     </div>
                     <div class="fieldWrapper">
                         {{ form.password1.errors }}
                         <label for="{{ form.password1.id_for_label }}">Password</label>
                         {{ form.password1 }}<br>
-                        <div class="alert alert-primary">{{ form.password1.help_text }}</div>
+                        <div class="text-arialn text-blue">{{ form.password1.help_text }}</div>
                     </div>
                     <div>
                         {{ form.password2.errors }}
                         <label for="{{ form.password2.id_for_label }}">Password confirmation</label>
                         {{ form.password2 }}<br>
-                        <div class="alert alert-primary message-blue">{{ form.password2.help_text }}</div>
+                        <div class="text-arialn text-blue">{{ form.password2.help_text }}</div>
                     </div>
                 </fieldset>
             <button type="submit" class="btn btn-outline-primary">Register</button>

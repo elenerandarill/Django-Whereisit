@@ -1,11 +1,14 @@
 {% extends "whereisit_app/base.html" %}
 {% block content %}
-    <h3>Log In here</h3>
+    <h3 class="mb-3">Log In</h3>
+    <p class="mb-5">Welcome, if you don`t have an account, go to
+        <a  class="text-blue" href="{% url 'register' %}"><strong>Register</strong></a> :)</p>
+
     <form method="POST">
         {% csrf_token %}
         <fieldset class="form-group">
             {{ form.as_p }}
         </fieldset>
-        <button type="submit" class="btn btn-outline-secondary">Log In</button>
+        <button type="submit" class="btn btn-outline-primary">Log In</button>
     </form>
 {% endblock %}

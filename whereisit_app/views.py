@@ -11,8 +11,7 @@ from .basic_setup import basic_setup
 
 
 def home(request):
-    title = "Home"
-    return render(request, 'whereisit_app/home.html', {'title': title})
+    return render(request, 'whereisit_app/home.html')
 
 
 def register(request):
@@ -39,11 +38,10 @@ def register(request):
 
 @login_required
 def profile(request):
-    title = 'Your Profile.'
     if request.method == 'GET':
         u_form = UserUpdateForm(instance=request.user)
         p_form = ProfileUpdateForm(instance=request.user.profile)
-        return render(request, 'whereisit_app/profile.html', {'title': title, 'u_form': u_form, 'p_form': p_form})
+        return render(request, 'whereisit_app/profile.html', {'u_form': u_form, 'p_form': p_form})
     else:
         u_form = UserUpdateForm(request.POST, instance=request.user)
         p_form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user.profile)
@@ -99,8 +97,7 @@ class ItemDeleteView(LoginRequiredMixin, DeleteView):
 
 
 def map_location(request):
-    title = 'Map'
-    return render(request, 'whereisit_app/map.html', {'title': title})
+    return render(request, 'whereisit_app/map.html')
 
 
 @login_required

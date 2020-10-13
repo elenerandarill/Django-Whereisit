@@ -1,11 +1,26 @@
 {% extends 'whereisit_app/base.html' %}
 {% block content %}
 
-    <h3>Adding new item:</h3>
+    <h3 class="mb-3">Adding new item</h3>
+    <p class="mb-4">Here you can add all the info about your Item.</p>
     <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
-            {{ form.as_p }}
-        <button type="submit" class="btn btn-info">Save</button>
+
+        {#            {{ form.as_p }}#}
+        <fieldset class="form-group">
+            <div>
+                {% for field in form %}
+                    <div class="fieldWrapper">
+                        <div>{{ field.errors }}</div>
+                        <div class="mb-0">{{ field.label_tag }}</div>
+                        <div class="mt-0">{{ field }}</div>
+                        <p class="text-blue text-arialn">{{ field.help_text }}</p>
+                    </div>
+                {% endfor %}
+            </div>
+        </fieldset>
+
+        <button type="submit" class="btn btn-outline-primary">Save</button>
     </form>
 
 {% endblock %}
