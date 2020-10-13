@@ -52,6 +52,7 @@ def profile(request):
             return redirect('profile')
         else:
             messages.error(request, 'Something went wrong.')
+            return render(request, 'whereisit_app/profile.html', {'u_form': u_form, 'p_form': p_form})
 
 
 # Items.
@@ -64,7 +65,7 @@ class ItemListView(ListView):
 
     def get_queryset(self):
         if self.request.user.is_authenticated:
-            groups = self.request.user.u_groups.all()
+            groups = self.request.user.profile.pgroups.all()
             return Item.objects.distinct().filter(groups__in=groups)
 
 

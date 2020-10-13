@@ -1,4 +1,4 @@
-from .models import GroupOfUsers, User, Item, Location
+from .models import GroupOfUsers, User, Item, Location, Profile
 
 
 def basic_setup():
@@ -9,18 +9,21 @@ def basic_setup():
     dzieci = GroupOfUsers.objects.create(name='Dzieci')
     dzieci.save()
 
-    user1 = User.objects.create(username='elener', email='elener@wp.pl')
+    user1 = User.objects.create_superuser(username='elener', email='elener@wp.pl')
     user1.set_password('testing666')
-    user1.u_groups.add(rodzice)
-    user1.u_groups.add(dzieci)
     user1.save()
-    user2 = User.objects.create(username='norbi', email='norbi@wp.pl')
+    user1.profile.pgroups.add(rodzice)
+    user1.profile.pgroups.add(dzieci)
+    user1.save()
+    user2 = User.objects.create_user(username='norbi', email='norbi@wp.pl')
     user2.set_password('testing666')
-    user2.u_groups.add(rodzice)
+    user2.save()
+    user2.profile.pgroups.add(rodzice)
     user2.save()
     user3 = User.objects.create(username='ala', email='ala@wp.pl')
     user3.set_password('testing666')
-    user3.u_groups.add(dzieci)
+    user3.save()
+    user3.profile.pgroups.add(dzieci)
     user3.save()
 
     location1 = Location.objects.create(room='Salon', furniture='Regał Billy 1', position_x='300', position_y='395')
@@ -97,10 +100,16 @@ def basic_setup():
     parasolka = Item.objects.create(name='Parasolka', category='Other')
     parasolka.groups.add(rodzice)
     parasolka.save()
+    parasolka.location = location15
+    parasolka.save()
     misio = Item.objects.create(name='Miś', category='Toys')
     misio.groups.add(dzieci)
+    misio.save()
+    misio.location = location18
     misio.save()
     pilka = Item.objects.create(name='Piłka', category='Other')
     pilka.groups.add(rodzice)
     pilka.groups.add(dzieci)
+    pilka.save()
+    pilka.location = location3
     pilka.save()
